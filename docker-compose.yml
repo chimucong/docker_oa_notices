@@ -1,0 +1,12 @@
+services:
+  oa:
+    image: oa_notices
+    container_name: oa_notices
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./log:/app/log  # log 目录
+    environment:
+      - OA_USERNAME=xxx # TODO 设置OA用户名
+      - OA_PASSWORD=xxx # TODO 设置OA密码
+      - DEBUG=0
