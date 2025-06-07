@@ -141,7 +141,17 @@ def fetch_notices_from_oa():
         driver.find_element(By.ID, "password").send_keys(password)
         driver.find_element(By.ID, "password").send_keys(Keys.RETURN)
 
-        wait(driver, "//a[.//nobr[text()='温职院OA系统']]", By.XPATH)
+        elem = WebDriverWait(driver, 60).until(
+            EC.any_of(
+                EC.presence_of_element_located(
+                    (By.XPATH, "//a[.//nobr[text()='温职院OA系统']]")),
+                EC.presence_of_element_located((By.ID, "msg"))
+            )
+        )
+        if '认证失败' in elem.text:
+            logger.error(elem.text)
+            os._exit(1)
+
         logger.info('登录账号成功')
 
         url = "http://oa.wzvtc.cn/login/Login.jsp"
